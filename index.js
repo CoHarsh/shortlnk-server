@@ -54,7 +54,6 @@ app.get('/:shortUrl', async (req, res) => {
         error: 'No URL found',
       });
     }
-
     return res.status(200).json({
       success: true,
       data: url.url,
@@ -86,12 +85,13 @@ app.post('/api/shorten', async (req, res) => {
     });
 
     const shortUrl = urlToUniqueBase64(url);
+    let shortnewURL = "https://shortlnk.onrender.com/" + shortUrl;
 
     const existingUrl = await Url.findOne({ shortUrl });
     if (existingUrl) {
       return res.status(200).json({
         success: true,
-        data: existingUrl.shortUrl,
+        data: shortnewURL,
       });
     }
 
@@ -103,7 +103,7 @@ app.post('/api/shorten', async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      data: shortUrl,
+      data: shortnewURL,
     });
   } catch (err) {
     console.error(err);
